@@ -1,0 +1,36 @@
+body{
+	margin: 0;
+	padding: 0;
+}
+.top{
+	height: 60%;
+	background: blue;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+}
+.left{
+	width: 33.33%;
+	height: 40%;
+	background: yellow;
+	position: absolute;
+	top: 60%;
+	left: 0;
+}
+.mid{
+	width: 33.33%;
+	height: 40%;
+	top: 60%;
+	left: 33.33%;
+	background: red;
+	position: absolute;	
+}
+.right{
+	width: 33.33%;
+	height: 40%;
+	background: green;
+	position: absolute;
+	top: 60%;
+	right: 0;
+}
