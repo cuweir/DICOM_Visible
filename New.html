@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Smells Like Teen's Spirit</title>
+	<script type="text/javascript" src="jquery.js"></script>
+	<script type="text/javascript" src="three.js"></script>
+	<script type="text/javascript" src="TrackballControls.js"></script>
+	
+	<script type="text/javascript">
+		$(function() {
+
+
+
+			var clock = new THREE.Clock();
+
+			var scene = new THREE.Scene();
+
+			var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+			camera.position.x = 0;
+			camera.position.y = 0;
+			camera.position.z = 30;
+			camera.lookAt(scene.position);
+
+
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setClearColor(0x000000, 1);
+			renderer.setSize(window.innerWidth, window.innerHeight);
+
+			var axes = new THREE.AxesHelper(20);
+			scene.add(axes);
+
+			var planeGeometry = new THREE.PlaneGeometry(11, 11, 1, 1);
+			var planeMaterial = new THREE.MeshLambertMaterial({color: "blue", wireframe: true});
+			var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+			var spotLight = new THREE.SpotLight("blue");
+			spotLight.position.set = (-40, 60, -10);
+			scene.add(spotLight);
+			planeGeometry.colorsNeedUpdate = true;
+
+			var ambientLight = new THREE.AmbientLight("white");
+			scene.add(ambientLight);
+
+			scene.add(plane);
+
+			
+			document.body.appendChild(renderer.domElement);
+			
+
+			var cubeMaterial = new THREE.MeshPhongMaterial({map: THREE.ImageUtils.loadTexture('0.png')});
+			function addCube(x, y, z){
+				var cubeGeometry = new THREE.BoxGeometry(8, 8, 0.1);
+				var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+
+				cube.position.x = x;
+				cube.position.y = y;
+				cube.position.z = z;
+				scene.add(cube);
+			}
+			addCube(0, 0, 1);
+			addCube(0, 0, 1.5);
+			addCube(0, 0, 2);
+			addCube(0, 0, 2.5);
+			addCube(0, 0, 3);
+			addCube(0, 0, 3.5);
+
+
+
+			var trackballControls = new THREE.TrackballControls(camera);
+			trackballControls.rotateSpeed = 1.0;
+			trackballControls.zoomSpeed = 1.0;
+			trackballControls.panSpeed = 1.0;
+			trackballControls.staticMoving = true;
+
+			render();
+			function render() {
+				window.requestAnimationFrame(render);
+				var delta = clock.getDelta();
+				trackballControls.update(delta);
+				renderer.render(scene, camera);
+			}
+
+
+
+
+
+		});
+	</script>
+</head>
+<body>
+
+</body>
+</html>
