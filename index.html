@@ -31,7 +31,7 @@
 				var plane = new THREE.Mesh(planeGeometry, planeMaterial);//create a plane
 
 
-				
+
 				var spotLight = new THREE.SpotLight("blue");
 				spotLight.position.set = (-40, 60, -10);
 				scene.add(spotLight);
@@ -51,6 +51,28 @@
 				trackballControls.staticMoving = true;
 
 
+				//声明一条射线
+				//var ray = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
+
+				/*function onDocumentMouseDown(event){
+					event.preventDefault();
+					var vector = new THREE.Vector3();
+					vector.set(
+						(event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1, 0.5
+						);
+					vector.unproject(camera);
+					var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
+					var intersects = raycaster.intersectObjects(scene.children);
+					if(intersects.length > 0){
+						var selected = intersects[0];
+						console.log("x坐标：" + selected.point.x);
+						console.log("y坐标：" + selected.point.y);
+						console.log("z坐标：" + selected.point.z);
+					}
+
+				}*/
+
+
 				render();
 				function render(){
 					window.requestAnimationFrame(render);
@@ -58,6 +80,8 @@
 					trackballControls.update(delta);
 					renderer.render(scene, camera);
 				}
+
+
 			});
 		</script>
 
