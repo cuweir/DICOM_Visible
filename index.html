@@ -23,24 +23,50 @@
 				var axes = new THREE.AxesHelper(20);
 				scene.add(axes);
 				//纹理
-				var texture = THREE.ImageUtils.loadTexture("0.png");
+				var texture0 = THREE.ImageUtils.loadTexture("0.png");
+				var texture1 = THREE.ImageUtils.loadTexture("1.png");
+				var texture2 = THREE.ImageUtils.loadTexture("2.png");
+				var texture3 = THREE.ImageUtils.loadTexture("3.png");
+
+				var planeGeometry0 = new THREE.PlaneGeometry(11, 11, 1, 1);
+				var planeMaterial0 = new THREE.MeshLambertMaterial({map: texture0});
+				var plane0 = new THREE.Mesh(planeGeometry0, planeMaterial0);//create a plane
+
+				var planeGeometry1 = new THREE.PlaneGeometry(11, 11, 1, 1);
+				var planeMaterial1 = new THREE.MeshLambertMaterial({map: texture1});
+				var plane1 = new THREE.Mesh(planeGeometry1, planeMaterial1);
+				plane1.position.z = 1;
 
 
-				var planeGeometry = new THREE.PlaneGeometry(11, 11, 1, 1);
-				var planeMaterial = new THREE.MeshLambertMaterial({map: texture});
-				var plane = new THREE.Mesh(planeGeometry, planeMaterial);//create a plane
+
+				var planeGeometry2 = new THREE.PlaneGeometry(11, 11, 1, 1);
+				var planeMaterial2 = new THREE.MeshLambertMaterial({map: texture2});
+				var plane2 = new THREE.Mesh(planeGeometry2, planeMaterial2);
+				plane2.position.z = 2;
 
 
+				var planeGeometry3 = new THREE.PlaneGeometry(11, 11, 1, 1);
+				var planeMaterial3 = new THREE.MeshLambertMaterial({map: texture3});
+				var plane3 = new THREE.Mesh(planeGeometry3, planeMaterial3);
+				plane3.position.z = 3;
 
 				var spotLight = new THREE.SpotLight("blue");
 				spotLight.position.set = (-40, 60, -10);
 				scene.add(spotLight);
-				planeGeometry.colorsNeedUpdate = true;
+
+				planeGeometry0.colorsNeedUpdate = true;
+				planeGeometry1.colorsNeedUpdate = true;
+				planeGeometry2.colorsNeedUpdate = true;
+				planeGeometry3.colorsNeedUpdate = true;
+
+
+
 				var ambientLight = new THREE.AmbientLight("white");
-
-
 				scene.add(ambientLight);
-				scene.add(plane);
+				scene.add(plane0);     
+				scene.add(plane1);
+				scene.add(plane2);
+				scene.add(plane3);
 				document.body.appendChild(renderer.domElement);
 
 
@@ -52,7 +78,7 @@
 
 
 				//声明一条射线
-				//var ray = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
+				//  var ray = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
 
 				/*function onDocumentMouseDown(event){
 					event.preventDefault();
