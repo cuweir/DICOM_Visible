@@ -1,115 +1,142 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
 	<title>The Earth is not a cold dead place</title>
 	<link rel="stylesheet" type="text/css" href="1.css">
-	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="three.js"></script>
 	<script type="text/javascript" src="TrackballControls.js"></script>
+	<script type="text/javascript" src="stats.min.js"></script>
 </head>
-<body>
-		<script type="text/javascript">
-			$(function() {
-				var scene = new THREE.Scene();//初始化场景
-				//初始化相机
-				var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-				camera.position.set(0, 0, 30);
-				camera.lookAt(scene.position);
-				//初始化时钟
-				var clock = new THREE.Clock();
-				var renderer = new THREE.WebGLRenderer();
-				renderer.setClearColor(0x000000, 1);//black
-				renderer.setSize(window.innerWidth, window.innerHeight);
-				var axes = new THREE.AxesHelper(20);
-				scene.add(axes);
-				//纹理
-				var texture0 = THREE.ImageUtils.loadTexture("0.png");
-				var texture1 = THREE.ImageUtils.loadTexture("1.png");
-				var texture2 = THREE.ImageUtils.loadTexture("2.png");
-				var texture3 = THREE.ImageUtils.loadTexture("3.png");
+<body onmousedown="onDocumentMouseDown(event)">
+	<div id="WebGL-output">
+	</div>
+	<div id="Stats-output">
+	</div>
+	<script type="text/javascript">
+		var scene;
+		var camera;
+		
+		function initStats() {
+			var stats = new Stats();
+			stats.setMode(0);
+			stats.domElement.style.position = 'absolute';
+			stats.domElement.style.left = '0px';
+			stats.domElement.style.top = '0px';
+			document.getElementById("Stats-output").appendChild(stats.domElement);
+			return stats;
+		}
+		function init() {
+			var stats = initStats();
+			scene = new THREE.Scene();//初始化场景
+			//初始化相机
+			camera = new THREE.PerspectiveCamera(30, window.innerWidth / (window.innerHeight*0.6), 0.1, 1000);
+			camera.position.set(0, 0, 30);
+			camera.lookAt(scene.position);
+			//初始化时钟
+			var clock = new THREE.Clock();
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setClearColor(0xFFFFFF, 1);//black
+			renderer.setSize(window.innerWidth, window.innerHeight*0.6);
+			var axes = new THREE.AxesHelper(20);
+			scene.add(axes);
+			//纹理
+			var texture0 = THREE.ImageUtils.loadTexture("0.png");
+			var texture1 = THREE.ImageUtils.loadTexture("1.png");
+			var texture2 = THREE.ImageUtils.loadTexture("2.png");
+			var texture3 = THREE.ImageUtils.loadTexture("3.png");
 
-				var planeGeometry0 = new THREE.PlaneGeometry(11, 11, 1, 1);
-				var planeMaterial0 = new THREE.MeshLambertMaterial({map: texture0});
-				var plane0 = new THREE.Mesh(planeGeometry0, planeMaterial0);//create a plane
+			var planeGeometry0 = new THREE.PlaneGeometry(11, 11, 1, 1);
+			var planeMaterial0 = new THREE.MeshLambertMaterial({map: texture0});
+			var plane0 = new THREE.Mesh(planeGeometry0, planeMaterial0);//create a plane
 
-				var planeGeometry1 = new THREE.PlaneGeometry(11, 11, 1, 1);
-				var planeMaterial1 = new THREE.MeshLambertMaterial({map: texture1});
-				var plane1 = new THREE.Mesh(planeGeometry1, planeMaterial1);
-				plane1.position.z = 1;
-
-
-
-				var planeGeometry2 = new THREE.PlaneGeometry(11, 11, 1, 1);
-				var planeMaterial2 = new THREE.MeshLambertMaterial({map: texture2});
-				var plane2 = new THREE.Mesh(planeGeometry2, planeMaterial2);
-				plane2.position.z = 2;
-
-
-				var planeGeometry3 = new THREE.PlaneGeometry(11, 11, 1, 1);
-				var planeMaterial3 = new THREE.MeshLambertMaterial({map: texture3});
-				var plane3 = new THREE.Mesh(planeGeometry3, planeMaterial3);
-				plane3.position.z = 3;
-
-				var spotLight = new THREE.SpotLight("blue");
-				spotLight.position.set = (-40, 60, -10);
-				scene.add(spotLight);
-
-				planeGeometry0.colorsNeedUpdate = true;
-				planeGeometry1.colorsNeedUpdate = true;
-				planeGeometry2.colorsNeedUpdate = true;
-				planeGeometry3.colorsNeedUpdate = true;
+			var planeGeometry1 = new THREE.PlaneGeometry(11, 11, 1, 1);
+			var planeMaterial1 = new THREE.MeshLambertMaterial({map: texture1});
+			var plane1 = new THREE.Mesh(planeGeometry1, planeMaterial1);
+			plane1.position.z = 1;
 
 
 
-				var ambientLight = new THREE.AmbientLight("white");
-				scene.add(ambientLight);
-				scene.add(plane0);     
-				scene.add(plane1);
-				scene.add(plane2);
-				scene.add(plane3);
-				document.body.appendChild(renderer.domElement);
+			var planeGeometry2 = new THREE.PlaneGeometry(11, 11, 1, 1);
+			var planeMaterial2 = new THREE.MeshLambertMaterial({map: texture2});
+			var plane2 = new THREE.Mesh(planeGeometry2, planeMaterial2);
+			plane2.position.z = 2;
 
 
-				var trackballControls = new THREE.TrackballControls(camera);
-				trackballControls.rotateSpeed = 1.0;
-				trackballControls.zoomSpeed = 1.0;
-				trackballControls.panSpeed = 1.0;
-				trackballControls.staticMoving = true;
+			var planeGeometry3 = new THREE.PlaneGeometry(11, 11, 1, 1);
+			var planeMaterial3 = new THREE.MeshLambertMaterial({map: texture3});
+			var plane3 = new THREE.Mesh(planeGeometry3, planeMaterial3);
+			plane3.position.z = 3;
+
+			var spotLight = new THREE.SpotLight("blue");
+			spotLight.position.set = (-40, 60, -10);
+			scene.add(spotLight);
+
+			planeGeometry0.colorsNeedUpdate = true;
+			planeGeometry1.colorsNeedUpdate = true;
+			planeGeometry2.colorsNeedUpdate = true;
+			planeGeometry3.colorsNeedUpdate = true;
 
 
-				//声明一条射线
-				//  var ray = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
 
-				/*function onDocumentMouseDown(event){
-					event.preventDefault();
-					var vector = new THREE.Vector3();
-					vector.set(
-						(event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1, 0.5
-						);
-					vector.unproject(camera);
-					var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
-					var intersects = raycaster.intersectObjects(scene.children);
-					if(intersects.length > 0){
-						var selected = intersects[0];
-						console.log("x坐标：" + selected.point.x);
-						console.log("y坐标：" + selected.point.y);
-						console.log("z坐标：" + selected.point.z);
-					}
-
-				}*/
+			var ambientLight = new THREE.AmbientLight("white");
+			scene.add(ambientLight);
+			scene.add(plane0);     
+			scene.add(plane1);
+			scene.add(plane2);
+			scene.add(plane3);
+			document.getElementById("WebGL-output").appendChild(renderer.domElement);
 
 
-				render();
-				function render(){
-					window.requestAnimationFrame(render);
-					var delta = clock.getDelta();
-					trackballControls.update(delta);
-					renderer.render(scene, camera);
-				}
+			var trackballControls = new THREE.TrackballControls(camera);
+			trackballControls.rotateSpeed = 1.0;
+			trackballControls.zoomSpeed = 1.0;
+			trackballControls.panSpeed = 0.0;
+			trackballControls.staticMoving = true;
 
 
-			});
-		</script>
+			//声明一条射线
+			//  var ray = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
 
+			
+
+
+			render();
+			function render(){
+				stats.update();
+				window.requestAnimationFrame(render);
+				var delta = clock.getDelta();
+				trackballControls.update(delta);
+				renderer.render(scene, camera);
+			}
+
+		}
+		function onDocumentMouseDown(event){
+			event.preventDefault();
+			var mouse = new THREE.Vector3();
+			mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+			mouse.y = -(event.clientY / (window.innerHeight * 0.6)) * 2 + 1;
+			//新建三维向量，假设z方向是0.5
+			//把向量转换到视点坐标系
+			var vector = new THREE.Vector3();
+			var vector = new THREE.Vector3(mouse.x, mouse.y, 0.5).unproject(camera);
+			
+			var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
+
+			//射线和模型求交，选中一系列直线
+			var intersects = raycaster.intersectObjects(scene.children);
+			if(intersects.length > 0){
+				var selected = intersects[0];
+				console.log("x坐标：" + selected.point.x + "\ny坐标：" + selected.point.y + "\nz坐标：" + selected.point.z);
+				
+			}
+
+		}
+		window.onload = init;
+	</script>
+		
+		
+		
+	
 </body>
 </html>
