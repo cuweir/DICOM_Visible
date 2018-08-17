@@ -7,11 +7,14 @@
 	<script type="text/javascript" src="three.js"></script>
 	<script type="text/javascript" src="TrackballControls.js"></script>
 	<script type="text/javascript" src="stats.min.js"></script>
+	<script type="text/javascript" src="dat.gui.min.js"></script>
 </head>
-<body onmousedown="onDocumentMouseDown(event)">
+<body onmousemove="onDocumentMouseDown(event)">
 	<div id="WebGL-output">
 	</div>
 	<div id="Stats-output">
+	</div>
+	<div id="mouseEvent">
 	</div>
 	<script type="text/javascript">
 		var scene;
@@ -38,8 +41,9 @@
 			var renderer = new THREE.WebGLRenderer();
 			renderer.setClearColor(0xFFFFFF, 1);//black
 			renderer.setSize(window.innerWidth, window.innerHeight*0.6);
-			var axes = new THREE.AxesHelper(20);
-			scene.add(axes);
+			//显示辅助坐标轴
+			/*var axes = new THREE.AxesHelper(20);
+			scene.add(axes);*/
 			//纹理
 			var texture0 = THREE.ImageUtils.loadTexture("0.png");
 			var texture1 = THREE.ImageUtils.loadTexture("1.png");
@@ -89,7 +93,7 @@
 
 
 			var trackballControls = new THREE.TrackballControls(camera);
-			trackballControls.rotateSpeed = 1.0;
+			trackballControls.rotateSpeed = 2.0;
 			trackballControls.zoomSpeed = 1.0;
 			trackballControls.panSpeed = 0.0;
 			trackballControls.staticMoving = true;
@@ -127,8 +131,12 @@
 			var intersects = raycaster.intersectObjects(scene.children);
 			if(intersects.length > 0){
 				var selected = intersects[0];
-				console.log("x坐标：" + selected.point.x + "\ny坐标：" + selected.point.y + "\nz坐标：" + selected.point.z);
-				
+				var x = selected.point.x.toFixed(2);
+				var y = selected.point.y.toFixed(2);
+				var z = selected.point.z.toFixed(2);
+
+				//console.log("x坐标：" + selected.point.x + "\ny坐标：" + selected.point.y + "\nz坐标：" + selected.point.z);
+				document.getElementById('mouseEvent').innerHTML = "Axial: " + z + "<br>Sagittal: " + x + "<br>Coronal: " + y;
 			}
 
 		}

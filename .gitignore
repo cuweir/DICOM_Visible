@@ -1,3 +1,4 @@
 
 *.png
 stats.min.js
+dat.gui.min.js
