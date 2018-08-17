@@ -39,13 +39,13 @@
 			//初始化时钟
 			var clock = new THREE.Clock();
 			var renderer = new THREE.WebGLRenderer();
-			renderer.setClearColor(0xFFFFFF, 1);//black
+			renderer.setClearColor(0xFFFFFF, 1);//white
 			renderer.setSize(window.innerWidth, window.innerHeight*0.6);
 			//显示辅助坐标轴
 			/*var axes = new THREE.AxesHelper(20);
 			scene.add(axes);*/
 			//纹理
-			var texture0 = THREE.ImageUtils.loadTexture("0.png");
+			/*var texture0 = THREE.ImageUtils.loadTexture("0.png");
 			var texture1 = THREE.ImageUtils.loadTexture("1.png");
 			var texture2 = THREE.ImageUtils.loadTexture("2.png");
 			var texture3 = THREE.ImageUtils.loadTexture("3.png");
@@ -70,32 +70,45 @@
 			var planeGeometry3 = new THREE.PlaneGeometry(11, 11, 1, 1);
 			var planeMaterial3 = new THREE.MeshLambertMaterial({map: texture3});
 			var plane3 = new THREE.Mesh(planeGeometry3, planeMaterial3);
-			plane3.position.z = 3;
+			plane3.position.z = 3;*/
+
+			for(var i = 0; i < 91; ++i){
+				var texture = THREE.ImageUtils.loadTexture("img//" + i + ".png");
+				var planeGeometry = new THREE.PlaneGeometry(11, 11, 1, 1);
+				var planeMaterial = new THREE.MeshLambertMaterial({map: texture});
+				var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+				plane.position.z = 0.1 * i;
+				planeGeometry.colorsNeedUpdate = true;
+				planeMaterial.transparent = true;
+				planeMaterial.opacity = 0.02;
+				scene.add(plane);
+			}
 
 			var spotLight = new THREE.SpotLight("blue");
 			spotLight.position.set = (-40, 60, -10);
 			scene.add(spotLight);
 
-			planeGeometry0.colorsNeedUpdate = true;
+			/*planeGeometry0.colorsNeedUpdate = true;
 			planeGeometry1.colorsNeedUpdate = true;
 			planeGeometry2.colorsNeedUpdate = true;
 			planeGeometry3.colorsNeedUpdate = true;
-
+			*/
 
 
 			var ambientLight = new THREE.AmbientLight("white");
 			scene.add(ambientLight);
-			scene.add(plane0);     
+			/*scene.add(plane0);     
 			scene.add(plane1);
 			scene.add(plane2);
 			scene.add(plane3);
+			*/
 			document.getElementById("WebGL-output").appendChild(renderer.domElement);
 
 
 			var trackballControls = new THREE.TrackballControls(camera);
 			trackballControls.rotateSpeed = 2.0;
 			trackballControls.zoomSpeed = 1.0;
-			trackballControls.panSpeed = 0.0;
+			trackballControls.panSpeed = 0.5;
 			trackballControls.staticMoving = true;
 
 
@@ -136,7 +149,7 @@
 				var z = selected.point.z.toFixed(2);
 
 				//console.log("x坐标：" + selected.point.x + "\ny坐标：" + selected.point.y + "\nz坐标：" + selected.point.z);
-				document.getElementById('mouseEvent').innerHTML = "Axial: " + z + "<br>Sagittal: " + x + "<br>Coronal: " + y;
+				document.getElementById('mouseEvent').innerHTML = "<p style=\"text-align: center\">Axial: " + z + "</p><p style=\"text-align: center\">Sagittal: " + x + "</p><p style=\"text-align: center\">Coronal: " + y + "</p>";
 			}
 
 		}
